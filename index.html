@@ -1,0 +1,487 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rugments - Bad Comments</title>
+  <link rel="shortcut icon" href="images/Loading.png" type="image/png">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+ 
+  <style>
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .comment-submit {
+    padding: 0 1rem;
+    background-color: var(--accent);
+    color: #000;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search button {
+    padding: 0 1.5rem;
+    background-color: var(--accent);
+    color: #000 !important; 
+  }
+
+    img {
+      max-width: 150px;
+      max-height: 150px;
+    }
+
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    .CA {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 400px;
+      font-size: 12px;
+      position: absolute;
+      top: 45px;
+      right: 20px;
+      padding: 5px 10px;
+      border-radius: 15px;
+      gap: 15px;
+    }
+    .CA img{
+      width: 20px;
+      height: 20px;
+      filter: invert(1);
+      cursor: pointer;
+    }
+    
+    :root {
+      --dark-bg: #1a1a2e;
+      --card-bg: #16213e;
+      --accent: #fff;
+      --accent-dark: #fff;
+      --text: #f8f1f1;
+      --muted: #a7a7a7;
+      --highlight: #0f3460;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #0f3460;
+      padding: 1.5rem;
+      text-align: center;
+      border-bottom: 3px solid var(--accent);
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    h1 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 2rem;
+      margin: 0;
+      color: var(--accent);
+      text-shadow: 2px 2px 0 #d23350;
+      letter-spacing: 1px;
+    }
+    
+    .subtitle {
+      margin-top: 0.5rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+    
+    .social-links {
+      margin-top: 1rem;
+    }
+    
+    .social-links a {
+      padding: 20px;
+      color: var(--text);
+      margin: 0 10px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .social-links a:hover {
+      color: var(--accent);
+    }
+    
+    .trade-timer {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    
+    .search {
+      display: flex;
+      margin-bottom: 2rem;
+      gap: 0.5rem;
+    }
+    
+    .search input {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      background-color: var(--highlight);
+      border: 1px solid var(--accent);
+      color: var(--text);
+      border-radius: 6px;
+      transition: all 0.3s;
+    }
+    
+    .search input:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(233, 69, 96, 0.3);
+    }
+    
+    .search button {
+      padding: 0 1.5rem;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .search button:hover {
+      background-color: var(--accent-dark);
+    }
+    
+    .kol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .kol-card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 1px solid var(--highlight);
+    }
+    
+    .kol-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      border-color: var(--accent);
+    }
+    
+    .kol-header {
+      display: flex;
+      align-items: center;
+      padding: 1.2rem;
+      background: linear-gradient(to right, var(--highlight), var(--card-bg));
+      border-bottom: 1px solid var(--highlight);
+    }
+    
+    .kol-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
+      border: 2px solid var(--accent);
+      background-color: var(--highlight);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--accent);
+      font-weight: bold;
+    }
+    
+    .kol-info {
+      flex: 1;
+    }
+    
+    .kol-name {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    
+    .kol-wallet {
+      font-size: 0.8rem;
+      color: var(--muted);
+      word-break: break-all;
+      margin-top: 0.3rem;
+    }
+    
+    .kol-actions {
+      display: flex;
+      padding: 1rem;
+      justify-content: center;
+      background-color: var(--highlight);
+    }
+    
+    .solscan-btn {
+      padding: 0.6rem 1.2rem;
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    
+    .solscan-btn:hover {
+      background-color: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+    
+    .loader {
+      border: 4px solid rgba(249, 249, 249, 0.1);
+      border-top: 4px solid var(--accent);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 30px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .error-message {
+      color: #ff6b6b;
+      text-align: center;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background-color: rgba(255, 107, 107, 0.1);
+      border-radius: 6px;
+      border-left: 4px solid #ff6b6b;
+      display: none;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      transition: opacity 0.5s ease;
+      background-color: var(--dark-bg);
+      position: fixed;
+      z-index: 200;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .profile-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      border: 2px solid var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    <img src="images/loading2.png" alt="Image"> 
+    <div class="loader"></div>
+  </div>
+  
+  <header>
+    <h1>RUGMENTS</h1>
+    <div class="subtitle">Bad Comments for Bad KOLs</div>
+    <div class="social-links">
+      <a href="https://x.com/rugments" target="_blank">X</a>
+      <a href="https://t.me/rugments" target="_blank">Telegram</a>
+    </div>
+    <div class="CA">47KyWz5WPAmZthUuHQfAEKAEXK2AqoNR1UQStLqmpump</div>
+    <div class="trade-timer">Next trades update in: <span id="timer">30</span>s</div>
+  </header>
+
+  <div class="container">
+    <div class="search">
+      <input type="text" placeholder="Enter Solana wallet address..." id="searchInput">
+      <button onclick="searchWallet()"><i class="fas fa-search"></i> Search</button>
+    </div>
+    
+    <div class="loader" id="loader"></div>
+    <div class="error-message" id="errorMessage"></div>
+    
+    <div class="kol-grid" id="kolGrid"></div>
+
+    <div class="profile-modal" id="profileModal">
+      <div class="modal-content" id="modalContent">
+      
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function searchWallet() {
+      const input = document.getElementById('searchInput').value.trim();
+      const loader = document.getElementById('loader');
+      const errorMsg = document.getElementById('errorMessage');
+      const kolGrid = document.getElementById('kolGrid');
+      
+      // Basic validation
+      if(!input) {
+        showError("Please enter a wallet address");
+        return;
+      }
+      
+      // Simple Solana address validation
+      if(!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(input)) {
+        showError("Invalid Solana wallet address format");
+        return;
+      }
+      
+      // Clear previous errors
+      errorMsg.style.display = 'none';
+      
+      // Show loader
+      loader.style.display = 'block';
+      
+      // Simulate API call with 2 second delay
+      setTimeout(() => {
+        loader.style.display = 'none';
+        addKolCard(input);
+      }, 2000);
+    }
+    
+    function showError(message) {
+      const errorMsg = document.getElementById('errorMessage');
+      errorMsg.textContent = message;
+      errorMsg.style.display = 'block';
+    }
+    
+    function addKolCard(walletAddress) {
+      const kolGrid = document.getElementById('kolGrid');
+      
+      // Generate a simple hash for avatar background
+      const hash = Array.from(walletAddress).reduce((acc, char) => 
+        acc + char.charCodeAt(0), 0);
+      const avatarColor = `hsl(${hash % 360}, 70%, 45%)`;
+      const initials = walletAddress.substring(0, 2).toUpperCase();
+      
+      // Create card HTML
+      const cardHTML = `
+        <div class="kol-card">
+          <div class="kol-header">
+            <div class="kol-avatar" style="background-color: ${avatarColor}">
+              ${initials}
+            </div>
+            <div class="kol-info">
+              <h3 class="kol-name">Wallet ${walletAddress.substring(0, 6)}...</h3>
+              <p class="kol-wallet">${walletAddress}</p>
+            </div>
+          </div>
+          <div class="kol-actions">
+            <button class="solscan-btn" onclick="viewOnSolscan('${walletAddress}', event)">
+              <i class="fas fa-external-link-alt"></i> View on Solscan
+            </button>
+          </div>
+        </div>
+      `;
+      
+      // Add card to the grid
+      kolGrid.insertAdjacentHTML('afterbegin', cardHTML);
+      
+      // Clear search input
+      document.getElementById('searchInput').value = '';
+    }
+    
+    function viewOnSolscan(walletAddress, event) {
+      event.stopPropagation();
+      window.open(`https://solscan.io/account/${walletAddress}`, '_blank');
+    }
+    
+    // Allow search on Enter key
+    document.getElementById('searchInput').addEventListener('keypress', function(e) {
+      if(e.key === 'Enter') {
+        searchWallet();
+      }
+    });
+    
+    // Click on card opens Solscan (except when clicking buttons)
+    document.getElementById('kolGrid').addEventListener('click', function(e) {
+      if(!e.target.closest('.solscan-btn')) {
+        const card = e.target.closest('.kol-card');
+        if(card) {
+          const walletAddress = card.querySelector('.kol-wallet').textContent;
+          window.open(`https://solscan.io/account/${walletAddress}`, '_blank');
+        }
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const content = document.querySelector('.content');
+        const loader = document.querySelector('#loader');
+        content.classList.add('fade-out');
+        loader.classList.add('fade-out');
+        setTimeout(() => {
+          content.style.display = 'none';
+          loader.style.display ='none';
+        }, 500);
+      }, 3000);
+    });
+  </script>
+
+  <script src="js/script.js"></script>
+
+</body></html>
